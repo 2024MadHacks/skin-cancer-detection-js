@@ -1,4 +1,6 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import "../css/learnMore.css";
 
 const name = {
@@ -23,6 +25,11 @@ const descriptions = {
 // };
 
 function LearnMore() {
+    const navigate = useNavigate();
+    const handleBackToTest = () => {
+        navigate("/"); // Navigate to the home page ("/") when the button is clicked
+    };
+
   return (
     <div className="flex flex-col items-center gap-2">
       <h2 className="text-[2rem] text-[#31211C] font-bold">Skin Lesions</h2>
@@ -40,9 +47,9 @@ function LearnMore() {
         ))}
       </div>
         <button
+            onClick={handleBackToTest}
             className="font-semibold bg-[#31211C] rounded-[2.3rem] text-[1rem] text-[#fff] py-4 hover:bg-transparent hover:text-[#31211C] border border-[#31211C] w-full">
             BACK TO THE TEST</button>
-
     </div>
   );
 }
