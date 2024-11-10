@@ -23,7 +23,7 @@ function Result() {
     };
 
     const hasNormal = prediction.some(
-        (item) => item.class === "NV" && item.score >= 0.6
+        (item) => item.class === "NV" && item.score >= 0.4
     );
 
     return (
@@ -41,7 +41,7 @@ function Result() {
             <ul style={{ listStyleType: "none" }}>
                 {/* Show abnormal only if no normal condition is found */}
                 {!hasNormal && prediction.some(
-                    (item) => item.class !== "NV" && item.score < 0.6
+                    (item) => item.class !== "NV" && item.score < 0.4
                 ) && (
                     <li className="text-[#3F414E] text-[2rem] font-bold text-center py-3 mb-2">
                         Abnormal
