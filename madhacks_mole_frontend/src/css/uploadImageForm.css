@@ -1,0 +1,27 @@
+button {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  margin-top: 20px;
+  padding: 10px 10px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+button:active {
+  background-color: #3e8e41;
+  transform: scale(0.98);
+}
+
+input[type="file"] {
+  margin-bottom: 16px;
+}

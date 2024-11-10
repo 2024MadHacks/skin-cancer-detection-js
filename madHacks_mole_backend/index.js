@@ -27,21 +27,13 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-app.get("/", (req, res) => {
-  res.send(`<form action="/image/classify" method="POST" enctype="multipart/form-data">
-    <p>Upload an image:</p>
-    <input type="file" name="image" accept="image/*" />
-    <button type="submit">Classify</button>
-    </form>`);
-});
-
-// 이미지 업로드 및 분류
 app.post("/image/classify", upload.single("image"), async (req, res) => {
   if (!req.file) {
     return res.status(400).send("No file uploaded.");
   }
 
-  // 저장된 이미지 파일의 URL을 구성
+  const imagePath = path.join(__dirname, "uploads", req.file.filename);
+
   const imageUrl = `http://localhost:${port}/uploads/${req.file.filename}`;
 
   return model
@@ -53,8 +45,11 @@ app.post("/image/classify", upload.single("image"), async (req, res) => {
         prediction.score = parseFloat(prediction.score.toFixed(6));
       });
 
-      console.log(predictions);
-      return res.json(predictions);
+      res.json({ predictions, imageUrl });
+
+      // fs.unlink(imagePath, (err) => {
+      //   if (err) console.error("Failed to delete image:", err);
+      // });
     })
     .catch((e) => {
       console.error(e);
