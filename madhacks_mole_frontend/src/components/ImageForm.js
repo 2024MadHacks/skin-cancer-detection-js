@@ -1,16 +1,8 @@
 import React, { useState } from "react";
-import "../css/uploadImageForm.css";
-import DescriptionList from "./descriptionList";
+import { Link } from "react-router-dom";
+import "../css/imageForm.css";
 
-const descriptions = {
-  BKL: "Benign keratosis-like lesions are common, non-cancerous skin growths, often associated with aging. They may appear as spots or small lumps on the skin. They are generally harmless and do not require treatment.",
-  MEL: "Melanoma is a type of skin cancer that develops in the pigment-producing cells (melanocytes) of the skin. It can spread quickly, so early detection is crucial. If suspected, it’s important to seek a professional diagnosis as soon as possible.",
-  BCC: "Basal cell carcinoma is the most common type of skin cancer, often occurring on skin that has been frequently exposed to the sun. Although it has a low risk of spreading, early treatment is essential.",
-  VASC: "Vascular lesions are abnormalities in the blood vessels or capillaries, appearing as red or blue spots on the skin. They are typically benign and not related to cancer. Vascular lesions may be treated for cosmetic reasons.",
-  NV: "A nevus, commonly known as a mole, is a pigmented spot on the skin. Most moles are benign with very low risk of developing into melanoma. However, if a mole changes in color, shape, or size, it’s recommended to have it checked by a professional.",
-};
-
-function UploadImageForm() {
+function ImageForm() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [prediction, setPrediction] = useState(null);
   const [imageUrl, setImageUrl] = useState(null); // 이미지 URL 상태 추가
@@ -35,7 +27,6 @@ function UploadImageForm() {
       const data = await response.json();
       setPrediction(data.predictions);
       setImageUrl(data.imageUrl);
-      console.log("imageUrl", imageUrl);
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -87,8 +78,10 @@ function UploadImageForm() {
                 )}
               </ul>
 
-              <DescriptionList descriptions={descriptions} />
               <button onClick={handleNewUpload}>Upload New Image</button>
+              <Link to="/description">
+                <button>Learn More</button>
+              </Link>
             </div>
           )}
         </>
@@ -97,4 +90,4 @@ function UploadImageForm() {
   );
 }
 
-export default UploadImageForm;
+export default ImageForm;
