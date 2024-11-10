@@ -5,13 +5,19 @@ const TeachableMachine = require("@sashido/teachablemachine-node");
 const path = require("path");
 const fs = require("fs");
 
+require("dotenv").config();
+
 const model = new TeachableMachine({
-  modelUrl: "https://teachablemachine.withgoogle.com/models/gLKUYyKvf/",
+  modelUrl: process.env.MODEL_URL,
 });
 
 const app = express();
-app.use(cors());
-const port = 5001;
+app.use(
+  cors({
+    origin: "https://detectivemole.netlify.app",
+  })
+);
+const port = process.env.PORT || 5001;
 
 if (!fs.existsSync("uploads")) {
   fs.mkdirSync("uploads");
@@ -34,7 +40,7 @@ app.post("/image/classify", upload.single("image"), async (req, res) => {
 
   const imagePath = path.join(__dirname, "uploads", req.file.filename);
 
-  const imageUrl = `http://localhost:${port}/uploads/${req.file.filename}`;
+  const imageUrl = `https://skin-cancer-detection-js.onrender.com/uploads/${req.file.filename}`;
 
   return model
     .classify({
@@ -46,19 +52,15 @@ app.post("/image/classify", upload.single("image"), async (req, res) => {
       });
 
       res.json({ predictions, imageUrl });
-
-      // fs.unlink(imagePath, (err) => {
-      //   if (err) console.error("Failed to delete image:", err);
-      // });
     })
     .catch((e) => {
       console.error(e);
-      res.status(500).send("Something went wrong!");
+      res.status(500).json({ error: "Internal Server Error" });
     });
 });
 
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Server is running on port ${port}`);
 });
