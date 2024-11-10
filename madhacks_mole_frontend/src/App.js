@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom"; // Import useLocation
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; // Import useLocation
 import ImageForm from "./components/ImageForm.js";
 import LearnMore from "./components/LearnMore.js";
 import Result from "./components/Result.js";
 import bgImg from "./assets/images/bgImg.svg";
 import Logo from "./assets/images/logo.svg";
-import detective from "./assets/images/detective.png";
-import eyes from "./assets/images/eyes.png";
 import madhacks from "./assets/images/madhacks.png";
 
 function App() {
