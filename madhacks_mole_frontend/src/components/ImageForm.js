@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/imageForm.css";
+import play from "../assets/images/play.svg";
+
 
 function ImageForm() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -41,28 +43,36 @@ function ImageForm() {
 
   return (
     <div>
-      <h2>Upload an image to classify</h2>
-
       {!submitted ? (
         <form onSubmit={handleSubmit}>
-          <label className="custom-file-upload">
-            <input type="file" onChange={handleFileChange} />
-          </label>
-          <button type="submit">Classify</button>
+          <div className="mt-4 flex flex-col gap-1">
+            <label className="custom-file-upload">
+              <input type="file" onChange={handleFileChange}
+              className="block w-full text-sm text-slate-500
+      file:mr-4 file:py-2 file:px-4
+      file:rounded-full file:border-0
+      file:text-sm file:font-semibold
+      file:bg-[#6F6662] file:text-[#fff]
+      hover:file:scale-105"
+              />
+            </label>
+            <button type="submit"
+                    className="font-semibold bg-[#31211C] rounded-[2.3rem] text-[1rem] text-[#fff] py-4 hover:bg-transparent hover:text-[#31211C] border border-[#31211C] w-full">
+              SEE MY RESULT</button>
+          </div>
         </form>
       ) : (
         <>
           {prediction && (
-            <div>
-              <h3>Prediction Result:</h3>
+            <div className="flex flex-col items-center">
 
               {imageUrl && (
                 <img
                   src={imageUrl}
-                  width="300px"
-                  height="300px"
+                  width="250px"
+                  height="200px"
                   alt="Uploaded"
-                  className="uploaded-image"
+                  className="uploaded-image rounded-xl border border-2 border-[#A0A0A0]"
                 />
               )}
 
@@ -70,18 +80,33 @@ function ImageForm() {
                 {prediction.some(
                   (item) => item.class === "NV" && item.score >= 0.6
                 ) ? (
-                  <li>This is a normal mole.</li>
+                  <li className="text-[#3F414E] text-[2rem] font-bold text-center py-2">Normal
+                    <p className="text-[#797A7C] text-[1rem] font-normal">
+                      Ah, excellent news, partner! <br/>It looks like this mole is nothing to worry about. Case closed, no danger here. But remember, I’ll always be here to keep an eye out for you.
+                    </p>
+                  </li>
                 ) : (
                   prediction.map((item, index) => (
                     <li key={index}>{`${item.class}: ${item.score}`}</li>
                   ))
                 )}
               </ul>
+              <div className="flex font-bold justify-center hover:text-[#797A7C] py-2">
+                <img className="" src={play} alt="play" />
+                <h3 onClick={handleNewUpload}>Keep Digging</h3>
+              </div>
 
-              <button onClick={handleNewUpload}>Upload New Image</button>
-              <Link to="/description">
-                <button>Learn More</button>
-              </Link>
+              <div className="flex flex-col gap-2 w-full">
+                <Link to="/description">
+                  <button className="font-semibold bg-[#31211C] rounded-[2.3rem] text-[1rem] text-[#fff] py-4 hover:bg-transparent hover:text-[#31211C] border border-[#31211C] w-full">
+                    Learn More</button>
+                </Link>
+                <Link to="/description">
+                  <button className="font-semibold bg-[#6F6662] hover:bg-[#31211C] rounded-[2.3rem] text-[1rem] text-[#fff] py-4 hover:bg-transparent hover:text-[#31211C] border border-[#31211C] w-full">
+                    Share Your Findings
+                  </button>
+                </Link>
+              </div>
             </div>
           )}
         </>
