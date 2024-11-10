@@ -1,35 +1,48 @@
 import React from "react";
 import "../css/learnMore.css";
 
-const descriptions = {
-  BKL: "Benign keratosis-like lesions are common, non-cancerous skin growths, often associated with aging. They may appear as spots or small lumps on the skin. They are generally harmless and do not require treatment.",
-  MEL: "Melanoma is a type of skin cancer that develops in the pigment-producing cells (melanocytes) of the skin. It can spread quickly, so early detection is crucial. If suspected, it’s important to seek a professional diagnosis as soon as possible.",
-  BCC: "Basal cell carcinoma is the most common type of skin cancer, often occurring on skin that has been frequently exposed to the sun. Although it has a low risk of spreading, early treatment is essential.",
-  VASC: "Vascular lesions are abnormalities in the blood vessels or capillaries, appearing as red or blue spots on the skin. They are typically benign and not related to cancer. Vascular lesions may be treated for cosmetic reasons.",
-  NV: "A nevus, commonly known as a mole, is a pigmented spot on the skin. Most moles are benign with very low risk of developing into melanoma. However, if a mole changes in color, shape, or size, it’s recommended to have it checked by a professional.",
+const name = {
+  BKL: "Benign Keratosis",
+  MEL: "Melanoma",
+  BCC: "Basal Cell Carcinoma",
+  VASC: "Vascular Lesions",
 };
+
+const descriptions = {
+    BKL: "like Lesions Common, non-cancerous skin growths, often with aging. Generally harmless, no treatment needed.",
+    MEL: "Skin cancer from pigment-producing cells. Can spread quickly. Early detection is key.",
+    BCC: "Most common skin cancer, often on sun-exposed skin. Low spread risk, early treatment essential.",
+    VASC: "Red/blue spots from blood vessel abnormalities. Benign, usually for cosmetic treatment.",
+};
+
+// const images = {
+//     BKL: "../assets/images/play.svg",
+//     MEL: "../assets/images/play.svg",
+//     BCC: "../assets/images/play.svg",
+//     VASC: "../assets/images/play.svg",
+// };
 
 function LearnMore() {
   return (
-    <div>
-      <h2>Skin Lesion Descriptions</h2>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "16px" }}>
+    <div className="flex flex-col items-center gap-2">
+      <h2 className="text-[2rem] text-[#31211C] font-bold">Skin Lesions</h2>
+      <div>
         {Object.keys(descriptions).map((key) => (
-          <div
-            key={key}
-            style={{
-              border: "1px solid #ddd",
-              borderRadius: "8px",
-              padding: "16px",
-              width: "200px",
-              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <h4>{key}</h4>
-            <p>{descriptions[key]}</p>
-          </div>
+            <div key={key} className="lesion-card bg-white rounded-xl shadow-md mb-3 p-5 text-[#6F6662] hover:scale-105">
+                {/*<img*/}
+                {/*    src={images[key]}*/}
+                {/*    alt={name[key]}*/}
+                {/*    style={{ width: "100%", height: "auto", borderRadius: "8px" }}*/}
+                {/*/>*/}
+                <h4 className="text-[1rem] font-bold">{name[key]}</h4>
+                <p>{descriptions[key]}</p>
+            </div>
         ))}
       </div>
+        <button
+            className="font-semibold bg-[#31211C] rounded-[2.3rem] text-[1rem] text-[#fff] py-4 hover:bg-transparent hover:text-[#31211C] border border-[#31211C] w-full">
+            BACK TO THE TEST</button>
+
     </div>
   );
 }
