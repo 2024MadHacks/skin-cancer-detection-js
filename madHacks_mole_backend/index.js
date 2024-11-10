@@ -40,7 +40,7 @@ app.post("/image/classify", upload.single("image"), async (req, res) => {
 
   const imagePath = path.join(__dirname, "uploads", req.file.filename);
 
-  const imageUrl = `http://localhost:${port}/uploads/${req.file.filename}`;
+  const imageUrl = `https://skin-cancer-detection-js.onrender.com/uploads/${req.file.filename}`;
 
   return model
     .classify({
@@ -55,7 +55,7 @@ app.post("/image/classify", upload.single("image"), async (req, res) => {
     })
     .catch((e) => {
       console.error(e);
-      res.status(500).send("Something went wrong!");
+      res.status(500).json({ error: "Internal Server Error" });
     });
 });
 
