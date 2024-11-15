@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Move the import here
+import { useNavigate } from "react-router-dom";
 import "../css/imageForm.css";
 import detective from "../assets/images/detective.png";
 import eyes from "../assets/images/eyes.png";
@@ -7,16 +7,23 @@ import eyes from "../assets/images/eyes.png";
 function ImageForm({ setSubmitted }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [prediction, setPrediction] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null); // 이미지 URL 상태 추가
-  const navigate = useNavigate(); // Now calling useNavigate here
+  const [imageUrl, setImageUrl] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showMain1, setShowMain1] = useState(true); // State for main-1 visibility
+
+  const navigate = useNavigate();
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+
+  const localUrl = "http://localhost:5001";
   const backendUrl = process.env.REACT_APP_BACKEND_URL;
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSubmitted(true); // Call the parent function to set the submitted state
+    setIsLoading(true);
+
     const formData = new FormData();
     formData.append("image", selectedFile);
 
@@ -27,13 +34,15 @@ function ImageForm({ setSubmitted }) {
       });
 
       const data = await response.json();
-      setPrediction(data.predictions); // Set prediction state
-      setImageUrl(data.imageUrl); // Set image URL
+      setPrediction(data.predictions);
+      setImageUrl(data.imageUrl);
+      setIsLoading(false);
       navigate("/result", {
         state: { prediction: data.predictions, imageUrl: data.imageUrl },
       }); // Pass data to /result route
     } catch (error) {
       console.error("Error uploading image:", error);
+      setIsLoading(false);
     }
   };
 
@@ -44,8 +53,6 @@ function ImageForm({ setSubmitted }) {
     setSubmitted(false);
   };
 
-  const [showMain1, setShowMain1] = useState(true); // State for main-1 visibility
-
   useEffect(() => {
     const interval = setInterval(() => {
       setShowMain1((prev) => !prev);
@@ -53,6 +60,10 @@ function ImageForm({ setSubmitted }) {
 
     return () => clearInterval(interval);
   }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>

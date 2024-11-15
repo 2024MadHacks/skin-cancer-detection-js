@@ -12,11 +12,7 @@ const model = new TeachableMachine({
 });
 
 const app = express();
-app.use(
-  cors({
-    origin: "https://detectivemole.netlify.app",
-  })
-);
+app.use(cors());
 const port = process.env.PORT || 5001;
 
 if (!fs.existsSync("uploads")) {
@@ -39,7 +35,7 @@ app.post("/image/classify", upload.single("image"), async (req, res) => {
   }
 
   const imagePath = path.join(__dirname, "uploads", req.file.filename);
-
+  // const imageUrl = `http://localhost:${port}/uploads/${req.file.filename}`;
   const imageUrl = `https://skin-cancer-detection-js.onrender.com/uploads/${req.file.filename}`;
 
   return model
